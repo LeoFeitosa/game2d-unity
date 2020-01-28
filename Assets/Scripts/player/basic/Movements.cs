@@ -24,6 +24,7 @@ public class Movements : MonoBehaviour
     private void FixedUpdate()
     {
         grounded = Physics2D.OverlapCircle(groundCheck.position, 0.02f);
+        playerAnimator.SetFloat("speedY", playerRb.velocity.y);
     }
 
     // Update is called once per frame
@@ -41,7 +42,11 @@ public class Movements : MonoBehaviour
             Flip();
         }
 
-        if (horizontal != 0)
+        if(vertical < 0)
+        {
+            idAnimation = 2;
+        }
+        else if (horizontal != 0)
         {
             idAnimation = 1;
         } else
@@ -57,7 +62,7 @@ public class Movements : MonoBehaviour
         if (Input.GetButtonDown("Fire3") && grounded)
         {
             playerRb.AddForce(new Vector2(0, jumpForce));
-            idAnimation = 2;
+            //idAnimation = 2;
         }
 
         playerRb.velocity = new Vector2(horizontal * speed, playerRb.velocity.y);
