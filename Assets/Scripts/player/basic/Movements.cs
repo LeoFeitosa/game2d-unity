@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Movements : MonoBehaviour
 {
+    private GameController _GameController;
     private Animator playerAnimator;
     private Rigidbody2D playerRb;
     public Transform groundCheck;
@@ -19,6 +20,9 @@ public class Movements : MonoBehaviour
     {
         playerRb = GetComponent<Rigidbody2D>();
         playerAnimator = GetComponent<Animator>();
+
+        _GameController = FindObjectOfType(typeof(GameController)) as GameController;
+        _GameController.playerTransform = this.transform;
     }
 
     private void FixedUpdate()
@@ -42,10 +46,6 @@ public class Movements : MonoBehaviour
             Flip();
         }
 
-        if(vertical < 0)
-        {
-            idAnimation = 2;
-        }
         else if (horizontal != 0)
         {
             idAnimation = 1;
@@ -54,15 +54,15 @@ public class Movements : MonoBehaviour
             idAnimation = 0;
         }
 
-        if (Input.GetButtonDown("Fire1") && grounded)
+        if (Input.GetButtonDown("Fire3") && grounded)
         {
             idAnimation = 3;
         }
 
-        if (Input.GetButtonDown("Fire3") && grounded)
+        if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Jump") && grounded)
         {
             playerRb.AddForce(new Vector2(0, jumpForce));
-            //idAnimation = 2;
+            idAnimation = 2;
         }
 
         playerRb.velocity = new Vector2(horizontal * speed, playerRb.velocity.y);
