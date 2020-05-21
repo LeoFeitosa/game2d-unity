@@ -54,15 +54,17 @@ public class Movements : MonoBehaviour
             idAnimation = 0;
         }
 
-        if (Input.GetButtonDown("Fire3") && grounded)
+        if (Input.GetButtonDown("Fire3") && grounded && horizontal != 0)
         {
             idAnimation = 3;
+            _GameController.playSFX(_GameController.sfxSlide, 0.5f);
         }
 
         if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Jump") && grounded)
         {
             playerRb.AddForce(new Vector2(0, jumpForce));
             idAnimation = 2;
+            _GameController.playSFX(_GameController.sfxJump, 0.5f);
         }
 
         playerRb.velocity = new Vector2(horizontal * speed, playerRb.velocity.y);
@@ -77,5 +79,10 @@ public class Movements : MonoBehaviour
         float x = transform.lossyScale.x;
         x *= -1;
         transform.localScale = new Vector3(x, transform.localScale.y, transform.localScale.z);
+    }
+
+    void footSteep()
+    {
+        _GameController.playSFX(_GameController.sfxSteep[Random.Range(0, _GameController.sfxSteep.Length)], 1f);
     }
 }
