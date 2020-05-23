@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,8 +14,7 @@ public class GameController : MonoBehaviour
     [Header("Audio")]
     public AudioSource sfxSource;
     public AudioSource musicSource;
-
-    public AudioClip sfxJump, sfxSlide;
+    public AudioClip sfxJump, sfxSlide, sfxCoin;
     public AudioClip[] sfxSteep;
 
 
@@ -56,6 +56,11 @@ public class GameController : MonoBehaviour
         Vector3 posCam = new Vector3(posCamX, posCamY, cam.transform.position.z);
 
         cam.transform.position = Vector3.Lerp(cam.transform.position, posCam, speedCam * Time.deltaTime);
+    }
+
+    internal void playSFX(AudioClip sfxCoin)
+    {
+        throw new NotImplementedException();
     }
 
     public void playSFX(AudioClip sfxClip, float volume)

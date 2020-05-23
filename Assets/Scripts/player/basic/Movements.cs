@@ -31,6 +31,20 @@ public class Movements : MonoBehaviour
         playerAnimator.SetFloat("speedY", playerRb.velocity.y);
     }
 
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.tag == "coletavel")
+        {
+            _GameController.playSFX(_GameController.sfxCoin, 0.6f);
+            Destroy(col.gameObject);
+        }
+        else if (col.gameObject.tag == "damage")
+        {
+            print("dano");
+        }
+
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -62,7 +76,7 @@ public class Movements : MonoBehaviour
 
         if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Jump") && grounded)
         {
-            playerRb.AddForce(new Vector2(0, jumpForce));
+            playerRb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
             idAnimation = 2;
             _GameController.playSFX(_GameController.sfxJump, 0.5f);
         }
@@ -83,6 +97,6 @@ public class Movements : MonoBehaviour
 
     void footSteep()
     {
-        _GameController.playSFX(_GameController.sfxSteep[Random.Range(0, _GameController.sfxSteep.Length)], 1f);
+        _GameController.playSFX(_GameController.sfxSteep[Random.Range(0, _GameController.sfxSteep.Length)], 1.5f);
     }
 }
