@@ -6,6 +6,7 @@ TagManager:
   tags:
   - coletavel
   - damage
+  - hitBox
   layers:
   - Default
   - TransparentFX

@@ -14,6 +14,10 @@ public class Movements : MonoBehaviour
     public int idAnimation;
     public float speed;
     public float jumpForce;
+    private bool isAtack;
+
+    public Transform slideAtack;
+    public GameObject hitBoxPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -31,11 +35,12 @@ public class Movements : MonoBehaviour
         playerAnimator.SetFloat("speedY", playerRb.velocity.y);
     }
 
+    // colisão com objetos
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "coletavel")
         {
-            _GameController.playSFX(_GameController.sfxCoin, 0.6f);
+            _GameController.playSFX(_GameController.sfxCoin, 0.5f);
             Destroy(col.gameObject);
         }
         else if (col.gameObject.tag == "damage")
@@ -70,6 +75,7 @@ public class Movements : MonoBehaviour
 
         if (Input.GetButtonDown("Fire3") && grounded && horizontal != 0)
         {
+            isAtack = true;
             idAnimation = 3;
             _GameController.playSFX(_GameController.sfxSlide, 0.5f);
         }
@@ -85,6 +91,7 @@ public class Movements : MonoBehaviour
 
         playerAnimator.SetBool("grounded", grounded);
         playerAnimator.SetInteger("idAnimation", idAnimation);
+        playerAnimator.SetBool("isAtack", isAtack);
     }
 
     void Flip()
@@ -97,6 +104,17 @@ public class Movements : MonoBehaviour
 
     void footSteep()
     {
-        _GameController.playSFX(_GameController.sfxSteep[Random.Range(0, _GameController.sfxSteep.Length)], 1.5f);
+        _GameController.playSFX(_GameController.sfxSteep[Random.Range(0, _GameController.sfxSteep.Length)], 2f);
+    }
+
+    void OnEndAtack()
+    {
+        isAtack = false;
+    }
+
+    void hitBoxAtack()
+    {
+        GameObject hitBoxTemp = Instantiate(hitBoxPrefab, slideAtack.position, transform.localRotation);
+        Destroy(hitBoxTemp, 0.6f);
     }
 }
