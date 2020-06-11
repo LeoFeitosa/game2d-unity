@@ -14,7 +14,7 @@ public class GameController : MonoBehaviour
     [Header("Audio")]
     public AudioSource sfxSource;
     public AudioSource musicSource;
-    public AudioClip sfxJump, sfxSlide, sfxCoin, sfxEnemyDead;
+    public AudioClip sfxJump, sfxSlide, sfxCoin, sfxEnemyDead, sfxDamage;
     public AudioClip[] sfxSteep;
 
 

@@ -1890,6 +1890,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2103193628}
     m_Modifications:
+    - target: {fileID: 6473334084757400848, guid: bd6ff4fa49471964b919f99e8663995a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6473334086081323779, guid: bd6ff4fa49471964b919f99e8663995a,
         type: 3}
       propertyPath: m_Name
@@ -2072,7 +2077,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 575068053}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
@@ -3170,6 +3175,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2103193628}
     m_Modifications:
+    - target: {fileID: 6473334084757400848, guid: bd6ff4fa49471964b919f99e8663995a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6473334086081323779, guid: bd6ff4fa49471964b919f99e8663995a,
         type: 3}
       propertyPath: m_Name
@@ -3987,6 +3997,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2103193628}
     m_Modifications:
+    - target: {fileID: 6473334084757400848, guid: bd6ff4fa49471964b919f99e8663995a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6473334086081323779, guid: bd6ff4fa49471964b919f99e8663995a,
         type: 3}
       propertyPath: m_Name
@@ -6680,6 +6695,8 @@ MonoBehaviour:
   slideAtack: {fileID: 1713846840}
   hitBoxPrefab: {fileID: 8677050910077590750, guid: ce0452b748dbc2a4d9a33b38dd598304,
     type: 3}
+  hitColor: {r: 1, g: 0, b: 0, a: 0.5882353}
+  noHitColor: {r: 1, g: 1, b: 1, a: 0.5882353}
 --- !u!1 &1713846839
 GameObject:
   m_ObjectHideFlags: 0
@@ -6689,7 +6706,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1713846840}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Atack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8084,6 +8101,7 @@ MonoBehaviour:
   sfxSlide: {fileID: 8300000, guid: aaf3246ff09382747913140bb6271a93, type: 3}
   sfxCoin: {fileID: 8300000, guid: 327e53e9663f2c8408698f44510481b7, type: 3}
   sfxEnemyDead: {fileID: 8300000, guid: a62e2f77e524567429e96219376b467c, type: 3}
+  sfxDamage: {fileID: 8300000, guid: 53eac669a577ea34792b6189a7feeb23, type: 3}
   sfxSteep:
   - {fileID: 8300000, guid: a5b560d3cdb305147854ee57ce8f3d53, type: 3}
   - {fileID: 8300000, guid: 7479dbc8e68da9b4691e677fe4c02fd3, type: 3}
@@ -8094,6 +8112,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2103193628}
     m_Modifications:
+    - target: {fileID: 6473334084757400848, guid: bd6ff4fa49471964b919f99e8663995a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6473334086081323779, guid: bd6ff4fa49471964b919f99e8663995a,
         type: 3}
       propertyPath: m_Name
@@ -8366,6 +8389,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2103193628}
     m_Modifications:
+    - target: {fileID: 6473334084757400848, guid: bd6ff4fa49471964b919f99e8663995a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6473334086081323779, guid: bd6ff4fa49471964b919f99e8663995a,
         type: 3}
       propertyPath: m_Name
@@ -8435,6 +8463,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2103193628}
     m_Modifications:
+    - target: {fileID: 6473334084757400848, guid: bd6ff4fa49471964b919f99e8663995a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6473334086081323779, guid: bd6ff4fa49471964b919f99e8663995a,
         type: 3}
       propertyPath: m_Name
