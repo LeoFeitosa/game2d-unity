@@ -7,6 +7,7 @@ public class Movements : MonoBehaviour
     private GameController _GameController;
     private Animator playerAnimator;
     private Rigidbody2D playerRb;
+    private SpriteRenderer playerSr;
     public Transform groundCheck;
 
     public bool playerFlip;
@@ -18,13 +19,15 @@ public class Movements : MonoBehaviour
 
     public Transform slideAtack;
     public GameObject hitBoxPrefab;
+    public Color hitColor;
+    public Color noHitColor;
 
     // Start is called before the first frame update
     void Start()
     {
         playerRb = GetComponent<Rigidbody2D>();
         playerAnimator = GetComponent<Animator>();
-
+        playerSr = GetComponent<SpriteRenderer>();
         _GameController = FindObjectOfType(typeof(GameController)) as GameController;
         _GameController.playerTransform = this.transform;
     }
@@ -46,6 +49,7 @@ public class Movements : MonoBehaviour
         else if (col.gameObject.tag == "damage")
         {
             print("dano");
+            StartCoroutine("damageController");
         }
 
     }
@@ -75,16 +79,21 @@ public class Movements : MonoBehaviour
 
         if (Input.GetButtonDown("Fire3") && grounded && horizontal != 0)
         {
+            _GameController.playSFX(_GameController.sfxSlide, 0.5f);
             isAtack = true;
             idAnimation = 3;
-            _GameController.playSFX(_GameController.sfxSlide, 0.5f);
         }
 
-        if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Jump") && grounded)
+        if (grounded)
         {
-            playerRb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
-            idAnimation = 2;
-            _GameController.playSFX(_GameController.sfxJump, 0.5f);
+            if (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Jump"))
+            {
+                print(grounded);
+                _GameController.playSFX(_GameController.sfxJump, 0.5f);
+                playerRb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+                idAnimation = 2;
+                
+            }
         }
 
         playerRb.velocity = new Vector2(horizontal * speed, playerRb.velocity.y);
@@ -104,7 +113,7 @@ public class Movements : MonoBehaviour
 
     void footSteep()
     {
-        _GameController.playSFX(_GameController.sfxSteep[Random.Range(0, _GameController.sfxSteep.Length)], 2f);
+        _GameController.playSFX(_GameController.sfxSteep[Random.Range(0, _GameController.sfxSteep.Length)], 4f);
     }
 
     void OnEndAtack()
@@ -116,5 +125,28 @@ public class Movements : MonoBehaviour
     {
         GameObject hitBoxTemp = Instantiate(hitBoxPrefab, slideAtack.position, transform.localRotation);
         Destroy(hitBoxTemp, 0.6f);
+    }
+
+    IEnumerator damageController()
+    {
+        _GameController.playSFX(_GameController.sfxDamage, 0.5f);
+
+        this.gameObject.layer = LayerMask.NameToLayer("Invencible");
+
+        playerSr.color = hitColor;
+        yield return new WaitForSeconds(0.2f);
+        playerSr.color = noHitColor;
+
+        for (int i = 0; i<5; i++)
+        {
+            playerSr.enabled = false;
+            yield return new WaitForSeconds(0.2f);
+            playerSr.enabled = true;
+            yield return new WaitForSeconds(0.2f);
+        }
+
+
+        playerSr.color = Color.white;
+        this.gameObject.layer = LayerMask.NameToLayer("Player");
     }
 }
