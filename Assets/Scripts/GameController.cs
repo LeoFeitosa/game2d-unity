@@ -3,6 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum musicaFase
+{
+    FLORESTA, CAVERNA
+}
+
 public class GameController : MonoBehaviour
 {
     private Camera cam;
@@ -17,11 +22,22 @@ public class GameController : MonoBehaviour
     public AudioClip sfxJump, sfxSlide, sfxCoin, sfxEnemyDead, sfxDamage;
     public AudioClip[] sfxSteep;
 
+    public GameObject[] fase;
+
+    public musicaFase musicaAtual;  
+
+    public AudioClip musicFloresta, musicCaverna;
 
     // Start is called before the first frame update
     void Start()
     {
         cam = Camera.main;
+
+        foreach (GameObject o in fase)
+        {
+            o.SetActive(false);
+        }
+        fase[0].SetActive   (true);
     }
 
     // Update is called once per frame
@@ -66,5 +82,41 @@ public class GameController : MonoBehaviour
     public void playSFX(AudioClip sfxClip, float volume)
     {
         sfxSource.PlayOneShot(sfxClip, volume);
+    }
+
+    public void trocarMusica(musicaFase novaMusica)
+    {
+        AudioClip clip = null;
+
+        switch (novaMusica)
+        {
+            case musicaFase.CAVERNA:
+                clip = musicCaverna;
+                break;
+            case musicaFase.FLORESTA:
+                clip = musicCaverna;
+                break;
+        }
+
+        StartCoroutine("controleMusica", clip);
+    }
+
+    IEnumerator controleMusica(AudioClip musica)
+    {
+        float volumeMaximo = musicSource.volume;
+        for (float volume = volumeMaximo; volume > 0; volume -= 0.01f)
+        {
+            musicSource.volume = volume;
+            yield return new WaitForEndOfFrame();
+        }
+
+        musicSource.clip = musica;
+        musicSource.Play();
+
+        for (float volume = 0; volume < volumeMaximo; volume += 0.01f)
+        {
+            musicSource.volume = volume;
+            yield return new WaitForEndOfFrame();
+        }
     }
 }
