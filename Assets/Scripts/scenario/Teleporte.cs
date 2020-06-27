@@ -29,8 +29,17 @@ public class Teleporte : MonoBehaviour
             {
                 o.SetActive(false);
             }
-            _GameController.fase[1].SetActive(true);
-            _GameController.trocarMusica(musicaFase.CAVERNA);
+
+            if (gameObject.tag == "teleporte1")
+            {
+                _GameController.fase[1].SetActive(true);
+                _GameController.trocarMusica(musicaFase.CAVERNA);
+            }
+            if (gameObject.tag == "teleporte2")
+            {
+                _GameController.fase[2].SetActive(true);
+                _GameController.trocarMusica(musicaFase.FLORESTA);
+            }
 
             col.transform.position = pontoSaida.position;
             Camera.main.transform.position = posCamera.position;

@@ -7,6 +7,10 @@ TagManager:
   - coletavel
   - damage
   - hitBox
+  - abismo
+  - teleporte1
+  - teleporte2
+  - flag
   layers:
   - Default
   - TransparentFX

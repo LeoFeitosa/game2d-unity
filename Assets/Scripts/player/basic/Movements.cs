@@ -44,19 +44,44 @@ public class Movements : MonoBehaviour
         if (col.gameObject.tag == "coletavel")
         {
             _GameController.playSFX(_GameController.sfxCoin, 0.5f);
+            _GameController.getCoin();
             Destroy(col.gameObject);
         }
         else if (col.gameObject.tag == "damage")
         {
-            print("dano");
-            StartCoroutine("damageController");
+            _GameController.getHit();
+            if (_GameController.vida > 0)
+            {
+                StartCoroutine("damageController");
+            }
         }
-
+        else if (col.gameObject.tag == "abismo")
+        {
+            _GameController.playSFX(_GameController.sfxDamage, 0.05f);
+            _GameController.vida = 0;
+            _GameController.heartController();
+            _GameController.painelGameOver.SetActive(true);
+            _GameController.currentState = gameState.GAMEOVER;
+            _GameController.trocarMusica(musicaFase.GAMEOVER);
+        }
+        else if (col.gameObject.tag == "flag")
+        {
+            _GameController.theEnd();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        playerAnimator.SetBool("grounded", grounded);
+
+        if (_GameController.currentState != gameState.GAMEPLAY)
+        {
+            playerRb.velocity = new Vector2(0, playerRb.velocity.y);
+            //playerAnimator.SetInteger("h", 0);
+            return;
+        }
+
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
@@ -72,7 +97,8 @@ public class Movements : MonoBehaviour
         else if (horizontal != 0)
         {
             idAnimation = 1;
-        } else
+        }
+        else
         {
             idAnimation = 0;
         }
@@ -92,13 +118,13 @@ public class Movements : MonoBehaviour
                 _GameController.playSFX(_GameController.sfxJump, 0.5f);
                 playerRb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
                 idAnimation = 2;
-                
+
             }
         }
 
         playerRb.velocity = new Vector2(horizontal * speed, playerRb.velocity.y);
 
-        playerAnimator.SetBool("grounded", grounded);
+        //playerAnimator.SetBool("grounded", grounded);
         playerAnimator.SetInteger("idAnimation", idAnimation);
         playerAnimator.SetBool("isAtack", isAtack);
     }
@@ -137,7 +163,7 @@ public class Movements : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         playerSr.color = noHitColor;
 
-        for (int i = 0; i<5; i++)
+        for (int i = 0; i < 5; i++)
         {
             playerSr.enabled = false;
             yield return new WaitForSeconds(0.2f);

@@ -2,14 +2,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public enum musicaFase
 {
-    FLORESTA, CAVERNA
+    FLORESTA, CAVERNA, GAMEOVER, THEEND
+}
+
+public enum gameState
+{
+    TITULO, GAMEPLAY, END, GAMEOVER
 }
 
 public class GameController : MonoBehaviour
 {
+    public gameState currentState;
+    public GameObject painelTitulo, painelGameOver, painelEnd;
+
     private Camera cam;
     public Transform playerTransform;
 
@@ -26,7 +36,12 @@ public class GameController : MonoBehaviour
 
     public musicaFase musicaAtual;  
 
-    public AudioClip musicFloresta, musicCaverna;
+    public AudioClip musicFloresta, musicCaverna, musicGameOver, musicTheEnd;
+
+    public int moedasColetadas;
+    public Text moedasTxt;
+    public Image[] coracoes;
+    public int vida;
 
     // Start is called before the first frame update
     void Start()
@@ -37,13 +52,27 @@ public class GameController : MonoBehaviour
         {
             o.SetActive(false);
         }
-        fase[0].SetActive   (true);
+        fase[0].SetActive(true);
+
+        heartController();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (currentState == gameState.TITULO && Input.GetKeyDown(KeyCode.Space))
+        {
+            currentState = gameState.GAMEPLAY;
+            painelTitulo.SetActive(false);
+        }
+        else if (currentState == gameState.GAMEOVER && Input.GetKeyDown(KeyCode.Space))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+        else if (currentState == gameState.END && Input.GetKeyDown(KeyCode.Space))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 
     private void LateUpdate()
@@ -94,7 +123,13 @@ public class GameController : MonoBehaviour
                 clip = musicCaverna;
                 break;
             case musicaFase.FLORESTA:
-                clip = musicCaverna;
+                clip = musicFloresta;
+                break;
+            case musicaFase.GAMEOVER:
+                clip = musicGameOver;
+                break;
+            case musicaFase.THEEND:
+                clip = musicTheEnd;
                 break;
         }
 
@@ -103,6 +138,7 @@ public class GameController : MonoBehaviour
 
     IEnumerator controleMusica(AudioClip musica)
     {
+        musicSource.Stop();
         float volumeMaximo = musicSource.volume;
         for (float volume = volumeMaximo; volume > 0; volume -= 0.01f)
         {
@@ -119,4 +155,44 @@ public class GameController : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
     }
+
+    public void heartController()
+    {
+        foreach (Image h in coracoes)
+        {
+            h.enabled = false;
+        }
+
+        for (int v = 0; v < vida; v++)
+        {
+            coracoes[v].enabled = true;
+        }
+    }
+
+    public void getHit()
+    {
+        vida -= 1;
+        heartController();
+        if (vida <= 0)
+        {
+            playerTransform.gameObject.SetActive(false);
+            painelGameOver.SetActive(true);
+            currentState = gameState.GAMEOVER;
+            trocarMusica(musicaFase.GAMEOVER);
+        }
+    }
+
+    public void getCoin()
+    {
+        moedasColetadas += 1;
+        moedasTxt.text = moedasColetadas.ToString();
+    }
+
+    public void theEnd()
+    {
+        currentState = gameState.END;
+        painelEnd.SetActive(true);
+        trocarMusica(musicaFase.THEEND);
+    }
+
 }
