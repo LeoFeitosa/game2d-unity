@@ -21,6 +21,11 @@ public class BatIA : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_GameController.currentState != gameState.GAMEPLAY)
+        {
+            return;
+        }
+
         if (isFolow == true)
         {
             transform.position = Vector3.MoveTowards(transform.position, _GameController.playerTransform.position, speed * Time.deltaTime);
